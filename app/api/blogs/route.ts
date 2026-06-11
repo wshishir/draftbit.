@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma"
+import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -12,4 +12,10 @@ export async function POST(req: Request) {
     },
   });
   return Response.json(blog);
+}
+
+export async function GET() {
+  const blogs = await prisma.blog.findMany();
+
+  return Response.json(blogs);
 }
