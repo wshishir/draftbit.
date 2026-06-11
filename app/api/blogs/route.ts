@@ -7,7 +7,7 @@ export async function POST(req: Request) {
     data: {
       title: body.title,
       content: body.content,
-      userId: body.user,
+      userId: body.userId,
       thumbnail: body.thumbnail,
     },
   });
