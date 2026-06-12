@@ -1,13 +1,20 @@
 import { prisma } from "@/lib/prisma";
+import { getUserFromToken } from "@/lib/auth";
 
 export async function POST(req: Request) {
+  const user = getUserFromToken(req);
+
+  if (!user) {
+    return Response.json({ message: "Unauthorized" }, { status: 401 });
+  }
+
   const body = await req.json();
 
   const blog = await prisma.blog.create({
     data: {
       title: body.title,
       content: body.content,
-      userId: body.userId,
+      userId: user.id,
       thumbnail: body.thumbnail,
     },
   });
@@ -15,7 +22,17 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-  const blogs = await prisma.blog.findMany();
+  const blogs = await prisma.blog.findMany({
+    include: {
+      user: {
+        select: {
+          id: true,
+          username: true,
+          email: true,
+        },
+      },
+    },
+  });
 
   return Response.json(blogs);
 }
