@@ -8,7 +8,7 @@ const dummyBlogs = [
       "A practical talk on component APIs, accessibility, and shipping faster without making the interface feel rushed.",
     author: "Rahul Pandey",
     date: "June 15, 2026",
-    imageSrc: "/blog.jpg",
+    imageSrc: "/blog7.jpg",
   },
   {
     id: 2,
@@ -68,9 +68,9 @@ const dummyBlogs = [
 
 export default function Home() {
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 py-12 sm:px-8">
+    <main className="mx-auto w-full max-w-7xl px-6 py-12 sm:px-8 ">
       <div className="mb-8">
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+        <h1 className="text-4xl font-semibold tracking-tight">
           Latest stories
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-[#52525b]">
