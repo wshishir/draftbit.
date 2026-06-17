@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Toaster } from "react-hot-toast";
 
 const font_Inter = Inter({
   variable: "--font-sans",
@@ -27,7 +28,10 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <Navbar />
 
-        <main className="flex flex-1 flex-col">{children}</main>
+        <main className="flex flex-1 flex-col">
+          <Toaster position="top-center" />
+          {children}
+        </main>
 
         <Footer />
       </body>

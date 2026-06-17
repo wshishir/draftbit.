@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CiCalendar } from "react-icons/ci";
-import { LuArrowLeft, LuShare2, LuUser } from "react-icons/lu";
+import { LuArrowLeft, LuUser } from "react-icons/lu";
+import ShareButton from "./ShareButton";
 
 const dummyBlogs = [
   {
@@ -94,7 +95,7 @@ export default async function BlogPage({
   }
 
   return (
-    <article className="mx-auto w-full px-6 py-12 sm:px-8" style={{ maxWidth: "1120px" }}>
+    <article className="mx-auto w-full px-6 py-12 sm:px-8" style={{ maxWidth: "1090px" }}>
       <Link
         href="/"
         className="mb-8 inline-flex items-center gap-1.5 text-md font-medium text-black"
@@ -114,31 +115,24 @@ export default async function BlogPage({
         />
       </div>
 
-      <header className="mt-8">
+      <header className="mt-5">
         <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
           {blog.title}
         </h1>
 
-        <div className="mt-6 flex flex-col gap-4 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-5">
-            <p className="flex items-center gap-2">
+        <div className="mt-5 flex w-full flex-col gap-6 text-sm text-zinc-500 sm:flex-row sm:items-center">
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="flex items-center gap-1">
               <LuUser className="size-4" />
               {blog.author}
             </p>
-            <p className="flex items-center gap-2">
+            <p className="flex items-center gap-1">
               <CiCalendar className="size-5" />
               {blog.date}
             </p>
-            <p>{blog.time}</p>
           </div>
 
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 text-sm text-zinc-500"
-          >
-            <LuShare2 className="size-4" />
-            Share
-          </button>
+          <ShareButton />
         </div>
       </header>
 
