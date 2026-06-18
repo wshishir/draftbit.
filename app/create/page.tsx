@@ -1,13 +1,18 @@
+"use client";
 import Tiptap from "@/components/TipTap";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 import React from "react";
-import { CiLocationArrow1 } from "react-icons/ci";
-import { FaLocationArrow } from "react-icons/fa";
+import toast from "react-hot-toast";
+import { FaFileImage, FaLocationArrow } from "react-icons/fa";
 import { LuArrowLeft } from "react-icons/lu";
+
+const handleSubmit = () => {
+  toast.success("Posted Successfully");
+};
 
 const page = () => {
   return (
@@ -44,6 +49,10 @@ const page = () => {
       </div>
       <div className="mb-4">
         <p className="font-medium text-xl mb-1">Cover Image</p>
+        <button className="text-zinc-500 border-dashed border-2 w-full py-36 rounded-xl border-zinc-300 mb-2 tracking-normal items-center justify-center flex flex-col gap-2 text-sm">
+          <FaFileImage size={30} className="text-zinc-400" />
+          <span className="font-medium">No cover image selected</span>
+        </button>
         <Input
           className="h-10  placeholder:text-zinc-400 text-lg md:text-lg bg-transparent focus-visible:ring-0 focus-visible:border-input"
           required
@@ -57,10 +66,11 @@ const page = () => {
       <div className="flex  items-center justify-center">
         <Button
           variant="default"
-          className="px-5 py-5 cursor-pointer font-medium text-2xl gap-4"
+          className="h-11 px-6 cursor-pointer gap-2 bg-foreground text-base font-semibold shadow-sm hover:bg-foreground/90"
+          onClick={handleSubmit}
         >
           Post Blog
-          <CiLocationArrow1 size={10} />
+          <FaLocationArrow size={4} />
         </Button>
       </div>
     </article>
