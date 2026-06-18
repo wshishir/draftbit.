@@ -7,7 +7,7 @@ const Footer = () => {
       <p className="flex items-center gap-1.5">
         Made with <FaHeart className="size-4 text-foreground" /> by{" "}
         <span className="underline-offset-2 underline">
-          <a href="https://x.com/yeshishir"> Shishir</a>
+          <a href="https://x.com/yeshishir" target="_blank"> Shishir</a>
         </span>
       </p>
       <p>©2026 Draftbit. All rights reserved.</p>
