@@ -6,16 +6,16 @@ type TokenPayLoad = {
   username: string;
 };
 
-export function getUserFromToken(req: Request) : TokenPayLoad | null {
+export function getUserFromToken(req: Request): TokenPayLoad | null {
   const authHeader = req.headers.get("authorization");
 
-  if(!authHeader){
+  if (!authHeader) {
     return null;
   }
 
   const token = authHeader.split(" ")[1];
 
-  if(!token) {
+  if (!token) {
     return null;
   }
 

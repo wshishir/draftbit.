@@ -108,17 +108,19 @@ const Page = () => {
         <p className="font-medium text-xl mb-1">Cover Image</p>
         <label className="text-zinc-500 border-dashed border-2 w-full h-72 rounded-xl border-zinc-300 mb-2 tracking-normal items-center justify-center flex flex-col gap-2 text-sm cursor-pointer relative overflow-hidden">
           {previewImage ? (
-            <>
+            <div className="group h-full w-full">
               <img
                 src={previewImage}
                 alt="Cover preview"
                 className="h-full w-full object-cover"
               />
+              <span className="absolute inset-0 hidden bg-black/40 group-hover:block" />
               <button
                 type="button"
-                className="absolute cursor-pointer bg-red-300 rounded-full p-4 shadow hidden hover:block"
+                className="absolute left-1/2 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 cursor-pointer bg-red-300 rounded-full p-4 shadow group-hover:block"
                 onClick={(event) => {
                   event.preventDefault();
+                  event.stopPropagation();
                   removeCoverImage();
                 }}
               >
@@ -129,7 +131,7 @@ const Page = () => {
                   Uploading...
                 </span>
               )}
-            </>
+            </div>
           ) : (
             <>
               <FaFileImage size={30} className="text-zinc-400" />
