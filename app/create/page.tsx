@@ -3,7 +3,9 @@ import Tiptap from "@/components/TipTap";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { getToken } from "@/lib/client-auth";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { FaFileImage, FaLocationArrow } from "react-icons/fa";
@@ -14,13 +16,41 @@ const handleSubmit = () => {
 };
 
 const Page = () => {
+  const router = useRouter();
   const [coverImage, setCoverImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleCreateBlog(e: React.FormEvent<HTMLFormElement>) {
+    const token = getToken();
+    const res = await fetch("/api/blogs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        title,
+        content,
+        coverImage,
+      }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      setError(data.message || "Failed to create blog");
+      return;
+    }
+    router.push("/");
+  }
 
   const handleImageChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = event.target.files?.[0];
 
@@ -33,7 +63,7 @@ const Page = () => {
     formData.append("file", file);
     formData.append(
       "upload_preset",
-      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || ""
+      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "",
     );
 
     try {
@@ -42,7 +72,7 @@ const Page = () => {
         {
           method: "POST",
           body: formData,
-        }
+        },
       );
       const data = await response.json();
 
@@ -56,7 +86,7 @@ const Page = () => {
       setPreviewImage("");
       setCoverImage("");
       toast.error(
-        error instanceof Error ? error.message : "Image upload failed"
+        error instanceof Error ? error.message : "Image upload failed",
       );
     } finally {
       setIsUploading(false);
@@ -73,7 +103,8 @@ const Page = () => {
   };
 
   return (
-    <article
+    <form
+      onSubmit={handleCreateBlog}
       className="mx-auto w-full px-6 py-12 sm:px-8"
       style={{ maxWidth: "1000px" }}
     >
@@ -95,6 +126,8 @@ const Page = () => {
           placeholder="Enter a descriptive title"
           required
           type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </div>
       <div className="mb-4">
@@ -102,6 +135,8 @@ const Page = () => {
         <Textarea
           className="resize-y placeholder:text-lg placeholder:text-zinc-400 text-lg md:text-lg bg-transparent focus-visible:ring-0 focus-visible:border-input"
           placeholder="Write a brief description"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
         />
       </div>
       <div className="mb-4">
@@ -158,12 +193,14 @@ const Page = () => {
           variant="default"
           className="h-11 px-6 cursor-pointer gap-2 bg-foreground text-base font-semibold shadow-sm hover:bg-foreground/90"
           onClick={handleSubmit}
+          type="submit"
+          disabled={loading}
         >
-          Post Blog
+           {loading ? "Publishing..." : "Publish Blog"}
           <FaLocationArrow size={4} />
         </Button>
       </div>
-    </article>
+    </form>
   );
 };
 

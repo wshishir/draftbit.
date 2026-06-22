@@ -18,6 +18,7 @@ model User {
 model Blog {
   id        Int      @id @default(autoincrement())
   title     String
+  description String
   content   String
   userId    Int
   createdAt DateTime @default(now())
