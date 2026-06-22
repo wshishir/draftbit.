@@ -13,6 +13,7 @@ export async function POST(req: Request) {
   const blog = await prisma.blog.create({
     data: {
       title: body.title,
+      description:body.description,
       content: body.content,
       userId: user.id,
       thumbnail: body.thumbnail,
@@ -27,7 +28,7 @@ export async function GET() {
       createdAt: "desc",
     },
     include: {
-      user: {
+      author: {
         select: {
           id: true,
           username: true,

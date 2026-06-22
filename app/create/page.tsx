@@ -36,6 +36,7 @@ const Page = () => {
       },
       body: JSON.stringify({
         title,
+        description,
         content,
         coverImage,
       }),
@@ -196,7 +197,7 @@ const Page = () => {
           type="submit"
           disabled={loading}
         >
-           {loading ? "Publishing..." : "Publish Blog"}
+          {loading ? "Publishing..." : "Publish Blog"}
           <FaLocationArrow size={4} />
         </Button>
       </div>
