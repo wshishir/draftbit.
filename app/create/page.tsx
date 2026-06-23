@@ -11,7 +11,6 @@ import toast from "react-hot-toast";
 import { FaFileImage, FaLocationArrow } from "react-icons/fa";
 import { LuArrowLeft, LuX } from "react-icons/lu";
 
-
 const Page = () => {
   const router = useRouter();
   const [coverImage, setCoverImage] = useState("");
@@ -28,6 +27,8 @@ const Page = () => {
     if (!coverImage) {
       toast.error("Cover image is required");
       return;
+    } else {
+      toast.success("Blog Posted Successfully!");
     }
 
     setLoading(true);
