@@ -81,7 +81,10 @@ export default async function BlogPage({
 
       <div className="mt-8 space-y-6 text-lg leading-8 text-[#3f3f46]">
         <p>{blog.description}</p>
-        <p className="whitespace-pre-line">{blog.content}</p>
+        <div
+          className="prose prose-zinc max-w-none"
+          dangerouslySetInnerHTML={{ __html: blog.content }}
+        />
       </div>
     </article>
   );
