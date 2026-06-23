@@ -22,6 +22,7 @@ const Page = () => {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -136,8 +137,8 @@ const Page = () => {
         <Textarea
           className="resize-y placeholder:text-lg placeholder:text-zinc-400 text-lg md:text-lg bg-transparent focus-visible:ring-0 focus-visible:border-input"
           placeholder="Write a brief description"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
       </div>
       <div className="mb-4">
@@ -187,7 +188,7 @@ const Page = () => {
       </div>
       <div className="mb-5">
         <p className="font-medium text-xl mb-1">Content</p>
-        <Tiptap />
+        <Tiptap onChange={setContent} />
       </div>
       <div className="flex  items-center justify-center">
         <Button

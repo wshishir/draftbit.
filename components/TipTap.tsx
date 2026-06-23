@@ -17,11 +17,18 @@ const toolbarButtonClass =
   'flex size-8 items-center justify-center rounded border border-transparent text-zinc-700 hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-40'
 
 const activeButtonClass = 'bg-zinc-200 text-black'
+type TiptapProps = {
+  onChange?: (content: string) => void
+}
 
-const Tiptap = () => {
+
+const Tiptap = ({ onChange }: TiptapProps) => {
   const editor = useEditor({
     extensions: [StarterKit],
     content: '',
+    onUpdate: ({ editor }) => {
+      onChange?.(editor.getHTML())
+    },
     // Don't render immediately on the server to avoid SSR issues
     immediatelyRender: false,
   })
