@@ -1,7 +1,11 @@
 # Lumora
 
 Lumora is a modern, minimal blog app built for distraction-free reading and writing.  
-It focuses on clean design, simple publishing, and a smooth reading experience.
+Build with secure authentication, clean and responsive UI & CRUD functionality for blogs.
+
+## Screenshots
+
+<img width="1917" height="1059" alt="Screenshot from 2026-06-25 03-30-45" src="https://github.com/user-attachments/assets/c0551880-c2c7-4c38-af83-f8b0bfbc20b5" />
 
 ## Features
 
@@ -27,7 +31,6 @@ It focuses on clean design, simple publishing, and a smooth reading experience.
 - Tailwind CSS
 - Shadcn UI
 - Tiptap Editor
-- React Icons
 
 ### Backend
 
@@ -43,10 +46,3 @@ It focuses on clean design, simple publishing, and a smooth reading experience.
 - Neon PostgreSQL
 - Cloudinary
 - Vercel
-
-## Screenshots
-
-Add your app screenshots here.
-
-```md
-![Lumora Home Page](./screenshots/home.png)
