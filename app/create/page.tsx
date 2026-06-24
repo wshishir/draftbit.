@@ -27,8 +27,6 @@ const Page = () => {
     if (!coverImage) {
       toast.error("Cover image is required");
       return;
-    } else {
-      toast.success("Blog Posted Successfully!");
     }
 
     setLoading(true);
