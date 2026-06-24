@@ -30,9 +30,9 @@ const BlogCard = ({
   imageSrc,
 }: BlogCardProps) => {
   return (
-    <Link href={`/blog/${id}`}>
-      <div className="w-full">
-        <Card className="group relative mx-auto min-h-full w-full max-w-md cursor-pointer gap-3 pt-0 rounded-md">
+    <Link href={`/blog/${id}`} className="block h-full">
+      <div className="h-full w-full">
+        <Card className="group relative mx-auto h-full w-full max-w-md cursor-pointer gap-3 pt-0 rounded-md">
           <div className="aspect-video overflow-hidden bg-muted">
             <Image
               src={imageSrc}
@@ -46,7 +46,7 @@ const BlogCard = ({
             <CardTitle className="line-clamp-2 text-xl font-semibold leading-tight text-foreground">
               {title}
             </CardTitle>
-            <CardDescription className="line-clamp-3 text-[14.5px] font-normal leading-5 tracking-normal text-[#52525b]">
+            <CardDescription className="line-clamp-2 min-h-[40px] text-[14.5px] font-normal leading-5 tracking-normal text-[#52525b]">
               {description}
             </CardDescription>
           </CardHeader>
