@@ -1,22 +1,35 @@
+import { connection } from "next/server";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CiCalendar } from "react-icons/ci";
 import { LuArrowLeft, LuUser } from "react-icons/lu";
+import { prisma } from "@/lib/prisma";
 import ShareButton from "./ShareButton";
-import { getBaseUrl } from "@/lib/getBaseUrl";
-import { Blog } from "@/types/blog";
 
-async function getBlog(id: string): Promise<Blog | null> {
-  const res = await fetch(`${getBaseUrl()}/api/blogs/${id}`, {
-    cache: "no-store",
-  });
+async function getBlog(id: string) {
+  await connection();
 
-  if (!res.ok) {
+  const blogId = Number(id);
+
+  if (Number.isNaN(blogId)) {
     return null;
   }
 
-  return res.json();
+  return prisma.blog.findUnique({
+    where: {
+      id: blogId,
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          username: true,
+          email: true,
+        },
+      },
+    },
+  });
 }
 
 export default async function BlogPage({

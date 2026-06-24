@@ -1,17 +1,24 @@
+import { connection } from "next/server";
 import BlogCard from "@/components/BlogCard";
-import { getBaseUrl } from "@/lib/getBaseUrl";
-import { Blog } from "@/types/blog";
+import { prisma } from "@/lib/prisma";
 
-async function getBlogs(): Promise<Blog[]> {
-  const res = await fetch(`${getBaseUrl()}/api/blogs`, {
-    cache: "no-store",
+async function getBlogs() {
+  await connection();
+
+  return prisma.blog.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          username: true,
+          email: true,
+        },
+      },
+    },
   });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch blogs");
-  }
-
-  return res.json();
 }
 
 export default async function Home() {
