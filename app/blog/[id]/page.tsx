@@ -4,10 +4,11 @@ import { notFound } from "next/navigation";
 import { CiCalendar } from "react-icons/ci";
 import { LuArrowLeft, LuUser } from "react-icons/lu";
 import ShareButton from "./ShareButton";
+import { getBaseUrl } from "@/lib/getBaseUrl";
 import { Blog } from "@/types/blog";
 
 async function getBlog(id: string): Promise<Blog | null> {
-  const res = await fetch(`http://localhost:3000/api/blogs/${id}`, {
+  const res = await fetch(`${getBaseUrl()}/api/blogs/${id}`, {
     cache: "no-store",
   });
 

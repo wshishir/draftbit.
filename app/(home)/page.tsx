@@ -1,8 +1,9 @@
 import BlogCard from "@/components/BlogCard";
+import { getBaseUrl } from "@/lib/getBaseUrl";
 import { Blog } from "@/types/blog";
 
 async function getBlogs(): Promise<Blog[]> {
-  const res = await fetch("http://localhost:3000/api/blogs", {
+  const res = await fetch(`${getBaseUrl()}/api/blogs`, {
     cache: "no-store",
   });
 
