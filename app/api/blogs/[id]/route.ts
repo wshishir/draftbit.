@@ -1,5 +1,7 @@
 import { getUserFromToken } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import jwt from "jsonwebtoken";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
@@ -26,40 +28,47 @@ export async function GET(
 }
 
 export async function DELETE(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> },
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
-  const user = getUserFromToken(req);
+  try {
+    const { id } = await context.params;
 
-  if (!user) {
-    return Response.json({ message: "Unauthorized" }, { status: 404 });
-  }
-  const { id } = await params;
+    const token = req.headers.get("authorization")?.split(" ")[1];
 
-  const blog = await prisma.blog.findUnique({
-    where: {
-      id: Number(id),
-    },
-  });
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
 
-  if (!blog) {
-    return Response.json({ message: "blog not found" }, { status: 404 });
-  }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+      id: number;
+    };
 
-  if (blog.userId !== user.id) {
-    return Response.json(
-      { message: "Forbidden: You can delete only your own blog" },
-      { status: 403 },
+    const blog = await prisma.blog.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!blog) {
+      return NextResponse.json({ message: "Blog not found" }, { status: 404 });
+    }
+
+    if (blog.userId !== decoded.id) {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
+
+    await prisma.blog.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    return NextResponse.json({ message: "Blog deleted successfully" });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Something went wrong" },
+      { status: 500 }
     );
   }
-
-  await prisma.blog.delete({
-    where: {
-      id: Number(id),
-    },
-  });
-
-  return Response.json({
-    message: "Blog Deleted",
-  });
 }
