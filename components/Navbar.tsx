@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { Button } from "./ui/button";
 import { FaGithub } from "react-icons/fa";
 import { Playfair_Display } from "next/font/google";
-import { getUser, logout } from "@/lib/client-auth";
+import { AUTH_CHANGE_EVENT, getUser, logout } from "@/lib/client-auth";
 import { useRouter } from "next/navigation";
 import { TbBallpen } from "react-icons/tb";
 import Link from "next/link";
@@ -14,21 +14,21 @@ const font_Playfair = Playfair_Display({
   weight: ["700"],
 });
 
+function subscribeToAuthChanges(callback: () => void) {
+  window.addEventListener(AUTH_CHANGE_EVENT, callback);
+
+  return () => {
+    window.removeEventListener(AUTH_CHANGE_EVENT, callback);
+  };
+}
+
 const Navbar = () => {
   const router = useRouter();
 
-  const [user, setUser] = useState<ReturnType<typeof getUser> | null>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const loggedInUser = getUser();
-    setUser(loggedInUser);
-    setMounted(true);
-  }, []);
+  const user = useSyncExternalStore(subscribeToAuthChanges, getUser, () => null);
 
   function handleLogout() {
     logout();
-    setUser(null);
     router.push("/login");
   }
 
@@ -53,7 +53,7 @@ const Navbar = () => {
           <FaGithub className="size-6 text-foreground" />
         </a>
 
-        {!mounted ? null : user ? (
+        {user ? (
           <>
             <Link href="/create">
               <Button

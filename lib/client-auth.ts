@@ -4,9 +4,12 @@ export type AuthUser = {
   email: string;
 };
 
+export const AUTH_CHANGE_EVENT = "auth-change";
+
 export function saveAuth(token: string, user: AuthUser) {
   localStorage.setItem("token", token);
   localStorage.setItem("user", JSON.stringify(user));
+  window.dispatchEvent(new Event(AUTH_CHANGE_EVENT));
 }
 
 export function getToken() {
@@ -23,4 +26,5 @@ export function getUser() : AuthUser | null {
 export function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
+  window.dispatchEvent(new Event(AUTH_CHANGE_EVENT));
 }
